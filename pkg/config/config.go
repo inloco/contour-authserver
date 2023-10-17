@@ -57,7 +57,9 @@ func NewConfig(configFile string) (*OIDCConfig, error) {
 			return nil, err
 		}
 
-		err = yaml.Unmarshal(data, cfg)
+		expanded := os.ExpandEnv(string(data[:]))
+
+		err = yaml.Unmarshal([]byte(expanded), cfg)
 		if err != nil {
 			return nil, err
 		}
